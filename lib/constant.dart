@@ -1,1 +1,0 @@
-enum PickedOperation { add, subtract }
