@@ -1,0 +1,1 @@
+enum PickedOperation { add, subtract }

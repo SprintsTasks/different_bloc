@@ -1,3 +1,4 @@
+import 'package:different_blocs/constant.dart';
 import 'package:different_blocs/manager/counter/counter_bloc.dart';
 import 'package:different_blocs/manager/theme/theme_bloc.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 BlocConsumer<CounterBloc, CounterStates>(
                     listener: (context, state) {
                   if (state is UpdateCounterNumberState) {
-                    if (state.updatedNumber == 10) {
+                    if (state.updatedNumber == 10||state.updatedNumber==-10) {
                       ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text("${state.updatedNumber}")));
                     }
@@ -61,14 +62,29 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           floatingActionButton: BlocBuilder<CounterBloc, CounterStates>(
               builder: (context, state) {
-            return FloatingActionButton(
-              onPressed: () {
-                context
-                    .read<CounterBloc>()
-                    .add(ChangeCounterEvent(changedNumber: _counter));
-              },
-              tooltip: 'Increment',
-              child: const Icon(Icons.add),
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              spacing: 12,
+              children: [
+                FloatingActionButton(
+                  heroTag: 'Fat1',
+                  onPressed: () {
+                    context.read<CounterBloc>().changeCounter(_counter,
+                        pickedOperation: PickedOperation.add);
+                  },
+                  tooltip: 'Increment',
+                  child: const Icon(Icons.add),
+                ),
+                FloatingActionButton(
+                  heroTag: 'Fat2',
+                  onPressed: () {
+                    context.read<CounterBloc>().changeCounter(_counter,
+                        pickedOperation: PickedOperation.subtract);
+                  },
+                  tooltip: 'Decreament',
+                  child: const Icon(Icons.minimize_outlined),
+                ),
+              ],
             );
           }),
         ));

@@ -1,15 +1,19 @@
 import 'package:bloc/bloc.dart';
-import 'package:flutter/foundation.dart';
+import 'package:different_blocs/constant.dart';
+import 'package:flutter/material.dart';
 part 'counter_states.dart';
-part 'counter_event.dart';
 
-class CounterBloc extends Bloc<CounterEvent, CounterStates> {
-  CounterBloc() : super(InitialCounterState()) {
-    on<ChangeCounterEvent>(_changeCounter);
-  }
+class CounterBloc extends Cubit<CounterStates> {
+  CounterBloc() : super(InitialCounterState());
 
-  Future<void> _changeCounter(
-      ChangeCounterEvent event, Emitter<CounterStates> emit) async {
-    emit(UpdateCounterNumberState(updatedNumber: event.changedNumber + 1));
+  Future<void> changeCounter(int number,
+      {required PickedOperation pickedOperation}) async {
+    switch (pickedOperation) {
+      case PickedOperation.add:
+        emit(UpdateCounterNumberState(updatedNumber: ++number));
+
+      case PickedOperation.subtract:
+        emit(UpdateCounterNumberState(updatedNumber: --number));
+    }
   }
 }
